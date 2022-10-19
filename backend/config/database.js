@@ -7,3 +7,9 @@ const connectDatabse = () => {
 }
 
 module.exports = connectDatabse
+
+// {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true,
+// }

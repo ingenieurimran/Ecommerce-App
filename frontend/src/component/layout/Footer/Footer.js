@@ -4,7 +4,7 @@ import playStore from '../../../images/playstore.png'
 import appStore from '../../../images/Appstore.png'
 import './Footer.css'
 
-export const Footer = () => {
+const Footer = () => {
   const year = new Date().getFullYear()
   return (
     <footer id="footer">
@@ -31,3 +31,5 @@ export const Footer = () => {
     </footer>
   )
 }
+
+export default Footer

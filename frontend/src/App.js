@@ -1,10 +1,12 @@
 import './App.css'
 import {useEffect} from 'react'
 import Header from './component/layout/Header/Header'
-import {BrowserRouter as Router} from 'react-router-dom'
+import Footer from './component/layout/Footer/Footer'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 import WebFont from 'webfontloader'
-import {Footer} from './component/layout/Footer/Footer'
+import React from 'react'
 import Home from './component/Home/Home'
+import ProductDetails from './component/Product/ProductDetails'
 
 function App() {
   useEffect(() => {
@@ -18,7 +20,8 @@ function App() {
   return (
     <Router>
       <Header />
-      <Home />
+      <Route exact path="/" component={Home} />
+      <Route exact path="/product/:id" component={ProductDetails} />
       <Footer />
     </Router>
   )
