@@ -6,9 +6,6 @@ const connectDatabse = () => {
     .then((data) => {
       console.log(`MOngodb connect with server: ${data.connection.host}`)
     })
-    .catch((err) => {
-      console.log(err)
-    })
 }
 
 module.exports = connectDatabse
