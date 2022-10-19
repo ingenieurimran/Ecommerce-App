@@ -1,27 +1,49 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import ReactStars from 'react-rating-stars-component'
+import React, {Fragment, useEffect} from 'react'
+import './Products.css'
+import {useSelector, useDispatch} from 'react-redux'
+import {clearErrors, getProduct} from '../../actions/productAction'
+import Loader from '../layout/Loader/Loader'
+import ProductCard from '../Home/ProductCard'
+import {useAlert} from 'react-alert'
+import MetaData from '../layout/MetaData'
 
-const Product = ({product}) => {
-  const options = {
-    edit: false,
-    color: 'rgba(20,20,20,0.1',
-    activeColor: 'tomoto',
-    size: window.innerWidth < 600 ? 20 : 25,
-    value: product.ratings,
-    inHalf: true,
-  }
+const Products = ({match}) => {
+  const alert = useAlert()
+  const dispatch = useDispatch()
+  const {loading, error, products, productsCount} = useSelector(
+    (state) => state.products
+  )
+
+  const keyword = match.params.keyword
+
+  useEffect(() => {
+    if (error) {
+      alert.error(error)
+      dispatch(clearErrors())
+    }
+    dispatch(getProduct(keyword))
+  }, [dispatch, keyword, error, alert])
   return (
-    <Link className="productCard" to={product._id}>
-      <img src={product.images[0].url} alt={product.name} />
-      <p>{product.name}</p>
-      <div>
-        <ReactStars {...options} />
-        <span>({product.numOfReviews} Reviews)</span>
-      </div>
-      <span>{`₹${product.price}`}</span>
-    </Link>
+    <Fragment>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <MetaData title="PRODUCTS -- ECOMMERCE" />
+          <h2 className="productsHeading">Products</h2>
+
+          <div className="products">
+            {products &&
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+          </div>
+
+          <div className="filterBox"></div>
+        </Fragment>
+      )}
+    </Fragment>
   )
 }
 
-export default Product
+export default Products
