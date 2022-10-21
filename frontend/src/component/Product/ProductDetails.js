@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, {Fragment, useEffect} from 'react'
 import Carousel from 'react-material-ui-carousel'
 import './ProductDetails.css'
 import {useSelector, useDispatch} from 'react-redux'
@@ -7,7 +7,7 @@ import ReviewCard from './ReviewCard.js'
 import Loader from '../layout/Loader/Loader'
 import {useAlert} from 'react-alert'
 import MetaData from '../layout/MetaData'
-import {Rating} from '@material-ui/lab'
+// import {Rating} from '@material-ui/lab'
 
 const ProductDetails = ({match}) => {
   const dispatch = useDispatch()

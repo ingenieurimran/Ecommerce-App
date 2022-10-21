@@ -3,6 +3,7 @@ import {ReactNavbar} from 'overlay-navbar'
 import logo from '../../../images/logo.png'
 
 const options = {
+  cartIcon: true,
   burgerColor: 'white',
   burgerColorHover: '#eb4034',
   logo,
