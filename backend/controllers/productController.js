@@ -32,7 +32,6 @@ exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
 })
 
 // Get Product Details
-
 exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id)
 
