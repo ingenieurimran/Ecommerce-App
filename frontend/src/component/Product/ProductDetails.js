@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import Carousel from 'react-material-ui-carousel'
 import './ProductDetails.css'
 import {useSelector, useDispatch} from 'react-redux'
@@ -7,7 +7,8 @@ import ReviewCard from './ReviewCard.js'
 import Loader from '../layout/Loader/Loader'
 import {useAlert} from 'react-alert'
 import MetaData from '../layout/MetaData'
-// import {Rating} from '@material-ui/lab'
+import {addItemsToCart} from '../../actions/cartAction'
+import {Rating} from '@material-ui/lab'
 
 const ProductDetails = ({match}) => {
   const dispatch = useDispatch()
@@ -15,12 +16,39 @@ const ProductDetails = ({match}) => {
 
   const {product, loading, error} = useSelector((state) => state.productDetails)
 
+  const options = {
+    size: 'large',
+    value: product.ratings,
+    readOnly: true,
+    precision: 0.5,
+  }
+
+  const [quantity, setQuantity] = useState(1)
+
+  const increaseQuantity = () => {
+    if (product.Stock <= quantity) return
+
+    const qty = quantity + 1
+    setQuantity(qty)
+  }
+
+  const decreaseQuantity = () => {
+    if (1 >= quantity) return
+
+    const qty = quantity - 1
+    setQuantity(qty)
+  }
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(match.params.id, quantity))
+    alert.success('Item Added To Cart')
+  }
+
   useEffect(() => {
     if (error) {
       alert.error(error)
       dispatch(clearErrors())
     }
-
     dispatch(getProductDetails(match.params.id))
   }, [dispatch, match.params.id, error, alert])
 
@@ -52,20 +80,26 @@ const ProductDetails = ({match}) => {
                 <p>Product # {product._id}</p>
               </div>
               <div className="detailsBlock-2">
-                {/* <Rating {...options} /> */}
+                <Rating {...options} />
                 <span className="detailsBlock-2-span">
                   {' '}
                   ({product.numOfReviews} Reviews)
                 </span>
               </div>
               <div className="detailsBlock-3">
-                <h1>{`$${product.price}`}</h1>
+                <h1>{`₹${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
-                    <button> - </button>
-                    <button> + </button>
+                    <button onClick={decreaseQuantity}>-</button>
+                    <input readOnly type="number" value={quantity} />
+                    <button onClick={increaseQuantity}>+</button>
                   </div>
-                  <button>Add to Cart</button>
+                  <button
+                    disabled={product.Stock < 1 ? true : false}
+                    onClick={addToCartHandler}
+                  >
+                    Add to Cart
+                  </button>
                 </div>
 
                 <p>
@@ -79,8 +113,6 @@ const ProductDetails = ({match}) => {
               <div className="detailsBlock-4">
                 Description : <p>{product.description}</p>
               </div>
-
-              <button className="submitReview">Submit Review</button>
             </div>
           </div>
 
