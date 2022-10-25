@@ -1,15 +1,15 @@
 # MERN E-COMMERCE TUTORIAL
 
-Hi! My name is **IMran Ali**, I have created this tutorial with MERN Stack.
+Hi! My name is **Imran Ali**, I have created this tutorial with MERN Stack.
 
 # Prerequisite
 
 1.  Must have basic knowledge of **Node**, **React**, **Express**, **MongoDB** 
 # Install Dependencies
 
-**For Backend** - `npm i`
+**For Backend** - `npm install`
 
-**For Frontend** - `cd frontend` ` npm i`
+**For Frontend** - `cd frontend` ` npm install`
 
 ## Env Variables
 
