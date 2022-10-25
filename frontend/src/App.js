@@ -1,5 +1,5 @@
 import './App.css'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import Header from './component/layout/Header/Header'
 import Footer from './component/layout/Footer/Footer'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
@@ -21,9 +21,24 @@ import ResetPassword from './component/user/ResetPassword'
 import UpdatePassword from './component/user/UpdatePassword'
 import ForgotPassword from './component/user/ForgotPassword'
 import Cart from './component/Cart/Cart'
+import Shipping from './component/Cart/Shipping'
+import ConfirmOrder from './component/Cart/ConfirmOrder'
+import axios from 'axios'
+import Payment from './component/Cart/Payment'
+import {Elements} from '@stripe/react-stripe-js'
+import {loadStripe} from '@stripe/stripe-js'
 
 function App() {
   const {isAuthenticated, user} = useSelector((state) => state.user)
+
+  const [stripeApiKey, setStripeApiKey] = useState('')
+
+  async function getStripeApiKey() {
+    const {data} = await axios.get('/api/v1/stripeapikey')
+
+    setStripeApiKey(data.stripeApiKey)
+  }
+
   useEffect(() => {
     WebFont.load({
       google: {
@@ -31,12 +46,14 @@ function App() {
       },
     })
     store.dispatch(loadUser())
+    getStripeApiKey()
   }, [])
 
   return (
     <Router>
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
+
       <Route exact path="/" component={Home} />
       <Route exact path="/product/:id" component={ProductDetails} />
       <Route exact path="/products" component={Products} />
@@ -55,6 +72,13 @@ function App() {
 
       <Route exact path="/password/reset/:token" component={ResetPassword} />
       <Route exact path="/cart" component={Cart} />
+      <ProtectedRoute exact path="/shipping" component={Shipping} />
+      <ProtectedRoute exact path="/order/confirm" component={ConfirmOrder} />
+      {stripeApiKey && (
+        <Elements stripe={loadStripe(stripeApiKey)}>
+          <ProtectedRoute exact path="/process/payment" component={Payment} />
+        </Elements>
+      )}
       <Footer />
     </Router>
   )

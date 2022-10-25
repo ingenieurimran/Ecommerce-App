@@ -1,4 +1,4 @@
-# MERN E-COMMERCE TUTORIAL
+# MERN E-COMMERCE WEBSITE
 
 Hi! My name is **Imran Ali**, I have created this tutorial with MERN Stack.
 
@@ -18,7 +18,7 @@ Make Sure to Create a config.env file in backend/config directory and add approp
 
 **Essential Variables**
 PORT=
-DB*URI =
+DB_URI =
 STRIPE_API_KEY=
 STRIPE_SECRET_KEY=
 JWT_SECRET=
@@ -32,4 +32,6 @@ SMPT_PORT=
 CLOUDINARY_NAME
 CLOUDINARY_API_KEY
 CLOUDINARY_API_SECRET
-\_fill each filed with your info respectively*
+FRONTEND_URL 'for development'
+
+\_fill each filed with your info respectively\*
