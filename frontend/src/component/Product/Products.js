@@ -10,6 +10,17 @@ import {useAlert} from 'react-alert'
 import Typography from '@material-ui/core/Typography'
 import MetaData from '../layout/MetaData'
 
+const categories = [
+  'Laptop',
+  'Computer',
+  'Footwear',
+  'Bottom',
+  'Tops',
+  'Attire',
+  'Camera',
+  'SmartPhones',
+]
+
 const Products = ({match}) => {
   const dispatch = useDispatch()
 
@@ -21,9 +32,14 @@ const Products = ({match}) => {
 
   const [ratings, setRatings] = useState(0)
 
-  const {products, loading, error, productsCount, resultPerPage} = useSelector(
-    (state) => state.products
-  )
+  const {
+    products,
+    loading,
+    error,
+    productsCount,
+    resultPerPage,
+    filteredProductsCount,
+  } = useSelector((state) => state.products)
 
   const keyword = match.params.keyword
 
@@ -34,6 +50,7 @@ const Products = ({match}) => {
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice)
   }
+  let count = filteredProductsCount
 
   useEffect(() => {
     if (error) {
@@ -71,6 +88,19 @@ const Products = ({match}) => {
               max={25000}
             />
 
+            <Typography>Categories</Typography>
+            <ul className="categoryBox">
+              {categories.map((category) => (
+                <li
+                  className="category-link"
+                  key={category}
+                  onClick={() => setCategory(category)}
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+
             <fieldset>
               <Typography component="legend">Ratings Above</Typography>
               <Slider
@@ -85,7 +115,7 @@ const Products = ({match}) => {
               />
             </fieldset>
           </div>
-          {resultPerPage < productsCount && (
+          {resultPerPage < count && (
             <div className="paginationBox">
               <Pagination
                 activePage={currentPage}

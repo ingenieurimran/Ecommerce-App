@@ -62,8 +62,8 @@ const ProductDetails = ({match}) => {
                 <h1>{`$${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
-                    <button>-</button>
-                    <button>+</button>
+                    <button> - </button>
+                    <button> + </button>
                   </div>
                   <button>Add to Cart</button>
                 </div>

@@ -24,8 +24,9 @@ export const getProduct = (
     let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`
 
     if (category) {
-      link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`
+      link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`
     }
+
     const {data} = await axios.get(link)
 
     dispatch({
@@ -43,6 +44,7 @@ export const getProduct = (
 export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({type: PRODUCT_DETAILS_REQUEST})
+
     const {data} = await axios.get(`/api/v1/product/${id}`)
 
     dispatch({
