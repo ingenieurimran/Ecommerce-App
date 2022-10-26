@@ -129,12 +129,12 @@ const ProductDetails = ({ match }) => {
               <div className="detailsBlock-2">
                 <Rating {...options} />
                 <span className="detailsBlock-2-span">
-                  {" "}
+                  {' '}
                   ({product.numOfReviews} Reviews)
                 </span>
               </div>
               <div className="detailsBlock-3">
-                <h1>{`₹${product.price}`}</h1>
+                <h1>{`$${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
                     <button onClick={decreaseQuantity}>-</button>
@@ -151,8 +151,8 @@ const ProductDetails = ({ match }) => {
 
                 <p>
                   Status:
-                  <b className={product.Stock < 1 ? "redColor" : "greenColor"}>
-                    {product.Stock < 1 ? "OutOfStock" : "InStock"}
+                  <b className={product.Stock < 1 ? 'redColor' : 'greenColor'}>
+                    {product.Stock < 1 ? 'OutOfStock' : 'InStock'}
                   </b>
                 </p>
               </div>
@@ -213,7 +213,7 @@ const ProductDetails = ({ match }) => {
         </Fragment>
       )}
     </Fragment>
-  );
+  )
 };
 
 export default ProductDetails;
