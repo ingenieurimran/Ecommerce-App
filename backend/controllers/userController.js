@@ -7,7 +7,6 @@ const crypto = require('crypto')
 const cloudinary = require('cloudinary')
 
 // Register a User
-
 exports.registerUaser = catchAsyncErrors(async (req, res, next) => {
   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: 'avatars',
@@ -31,7 +30,6 @@ exports.registerUaser = catchAsyncErrors(async (req, res, next) => {
 })
 
 // Login User
-
 exports.userLogin = catchAsyncErrors(async (req, res, next) => {
   const {email, password} = req.body
   // checking if user has both password & email
@@ -53,7 +51,6 @@ exports.userLogin = catchAsyncErrors(async (req, res, next) => {
 })
 
 // User Logout function
-
 exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie('token', null, {
     expires: new Date(Date.now()),
@@ -67,7 +64,6 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
 })
 
 // Forgot Password
-
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({email: req.body.email})
 
@@ -75,10 +71,10 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('User not found', 404))
   }
 
-  //  Get ResetPassword Token
-  const resetToken = user.getResetPasswordToken()
+//  Get ResetPassword Token
+const resetToken = user.getResetPasswordToken()
 
-  await user.save({validateBeforeSave: false})
+await user.save({validateBeforeSave: false})
   // for deploying on server
   // const resetPasswordUrl = `${req.protocol}://${req.get(
   //   'host'
@@ -265,6 +261,10 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
       new ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400)
     )
   }
+
+  const imageId = user.avatar.public_id;
+
+  await cloudinary.v2.uploader.destroy(imageId);
 
   await user.remove()
 
