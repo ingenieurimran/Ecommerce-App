@@ -78,7 +78,7 @@ await user.save({validateBeforeSave: false})
   // for deploying on server
   // const resetPasswordUrl = `${req.protocol}://${req.get(
   //   'host'
-  // )}/api/v1/password/reset/${resetToken}`
+  // )}/password/reset/${resetToken}`
   // for dev perpose
   const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`
 
