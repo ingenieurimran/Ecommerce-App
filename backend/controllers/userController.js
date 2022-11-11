@@ -1,13 +1,13 @@
-const ErrorHandler = require('../utils/errorhandler')
+const ErrorHander = require('../utils/errorhander')
 const catchAsyncErrors = require('../middleware/catchAsyncErrors')
-const User = require('../model/userModel')
+const User = require('../models/userModel')
 const sendToken = require('../utils/jwtToken')
 const sendEmail = require('../utils/sendEmail')
 const crypto = require('crypto')
 const cloudinary = require('cloudinary')
 
 // Register a User
-exports.registerUaser = catchAsyncErrors(async (req, res, next) => {
+exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: 'avatars',
     width: 150,
@@ -30,27 +30,31 @@ exports.registerUaser = catchAsyncErrors(async (req, res, next) => {
 })
 
 // Login User
-exports.userLogin = catchAsyncErrors(async (req, res, next) => {
+exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   const {email, password} = req.body
-  // checking if user has both password & email
+
+  // checking if user has given password and email both
+
   if (!email || !password) {
-    return next(new ErrorHandler('Please enter Email & Password', 400))
-  }
-  const user = await User.findOne({email}).select('+password')
-  if (!user) {
-    return next(new ErrorHandler('Invalid Email & Password', 401))
+    return next(new ErrorHander('Please Enter Email & Password', 400))
   }
 
-  const isPasswordMatched = await user.camparePassword(password)
+  const user = await User.findOne({email}).select('+password')
+
+  if (!user) {
+    return next(new ErrorHander('Invalid email or password', 401))
+  }
+
+  const isPasswordMatched = await user.comparePassword(password)
 
   if (!isPasswordMatched) {
-    return next(new ErrorHandler('Invalid Email & Password', 401))
+    return next(new ErrorHander('Invalid email or password', 401))
   }
 
   sendToken(user, 200, res)
 })
 
-// User Logout function
+// Logout User
 exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie('token', null, {
     expires: new Date(Date.now()),
@@ -59,7 +63,7 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: 'Logout Successfully',
+    message: 'Logged Out',
   })
 })
 
@@ -68,21 +72,19 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({email: req.body.email})
 
   if (!user) {
-    return next(new ErrorHandler('User not found', 404))
+    return next(new ErrorHander('User not found', 404))
   }
 
-//  Get ResetPassword Token
-const resetToken = user.getResetPasswordToken()
+  // Get ResetPassword Token
+  const resetToken = user.getResetPasswordToken()
 
-await user.save({validateBeforeSave: false})
-  // for deploying on server
-  // const resetPasswordUrl = `${req.protocol}://${req.get(
-  //   'host'
-  // )}/password/reset/${resetToken}`
-  // for dev perpose
-  const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`
+  await user.save({validateBeforeSave: false})
 
-  const message = `Your password reset token is:- \n\n ${resetPasswordUrl} \n\n If you have not requested this emial then, please ignore it.`
+  const resetPasswordUrl = `${req.protocol}://${req.get(
+    'host'
+  )}/password/reset/${resetToken}`
+
+  const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`
 
   try {
     await sendEmail({
@@ -100,13 +102,14 @@ await user.save({validateBeforeSave: false})
     user.resetPasswordExpire = undefined
 
     await user.save({validateBeforeSave: false})
-    return next(new ErrorHandler(error.message, 500))
+
+    return next(new ErrorHander(error.message, 500))
   }
 })
 
 // Reset Password
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
-  // Hashing and adding resetÜasswordTocken to userSchema
+  // creating token hash
   const resetPasswordToken = crypto
     .createHash('sha256')
     .update(req.params.token)
@@ -119,15 +122,15 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorHandler(
-        'Rest Password Token is invalid or has been expired',
+      new ErrorHander(
+        'Reset Password Token is invalid or has been expired',
         400
       )
     )
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    return next(new ErrorHandler('Password does not match', 400))
+    return next(new ErrorHander('Password does not password', 400))
   }
 
   user.password = req.body.password
@@ -153,14 +156,14 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password')
 
-  const isPasswordMatched = await user.camparePassword(req.body.oldPassword)
+  const isPasswordMatched = await user.comparePassword(req.body.oldPassword)
 
   if (!isPasswordMatched) {
-    return next(new ErrorHandler('Old password is incorrect', 4001))
+    return next(new ErrorHander('Old password is incorrect', 400))
   }
 
   if (req.body.newPassword !== req.body.confirmPassword) {
-    return next(new ErrorHandler('password does not match', 400))
+    return next(new ErrorHander('password does not match', 400))
   }
 
   user.password = req.body.newPassword
@@ -223,7 +226,7 @@ exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorHandler(`User does not exist with Id: ${req.params.id}`)
+      new ErrorHander(`User does not exist with Id: ${req.params.id}`)
     )
   }
 
@@ -258,13 +261,13 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400)
+      new ErrorHander(`User does not exist with Id: ${req.params.id}`, 400)
     )
   }
 
-  const imageId = user.avatar.public_id;
+  const imageId = user.avatar.public_id
 
-  await cloudinary.v2.uploader.destroy(imageId);
+  await cloudinary.v2.uploader.destroy(imageId)
 
   await user.remove()
 

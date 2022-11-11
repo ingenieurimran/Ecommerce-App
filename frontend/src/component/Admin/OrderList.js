@@ -116,7 +116,7 @@ const OrderList = ({history}) => {
         id: item._id,
         name: item.orderItems[0].name,
         itemsQty: item.orderItems.length,
-        amount: item.totalPrice,
+        amount: `€${item.totalPrice}`,
         status: item.orderStatus,
       })
     })

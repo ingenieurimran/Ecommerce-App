@@ -1,36 +1,35 @@
-import React, {Fragment, useEffect, useState} from 'react'
-import './Products.css'
-import {useSelector, useDispatch} from 'react-redux'
-import {clearErrors, getProduct} from '../../actions/productAction'
-import Loader from '../layout/Loader/Loader'
-import ProductCard from '../Home/ProductCard'
-import Pagination from 'react-js-pagination'
-import Slider from '@material-ui/core/Slider'
-import {useAlert} from 'react-alert'
-import Typography from '@material-ui/core/Typography'
-import MetaData from '../layout/MetaData'
+import React, { Fragment, useEffect, useState } from "react";
+import "./Products.css";
+import { useSelector, useDispatch } from "react-redux";
+import { clearErrors, getProduct } from "../../actions/productAction";
+import Loader from "../layout/Loader/Loader";
+import ProductCard from "../Home/ProductCard";
+import Pagination from "react-js-pagination";
+import Slider from "@material-ui/core/Slider";
+import { useAlert } from "react-alert";
+import Typography from "@material-ui/core/Typography";
+import MetaData from "../layout/MetaData";
 
 const categories = [
-  'Laptop',
-  'Computer',
-  'Footwear',
-  'Bottom',
-  'Tops',
-  'Attire',
-  'Camera',
-  'SmartPhones',
-]
+  "Laptop",
+  "Footwear",
+  "Bottom",
+  "Tops",
+  "Attire",
+  "Camera",
+  "SmartPhones",
+];
 
-const Products = ({match}) => {
-  const dispatch = useDispatch()
+const Products = ({ match }) => {
+  const dispatch = useDispatch();
 
-  const alert = useAlert()
+  const alert = useAlert();
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [price, setPrice] = useState([0, 25000])
-  const [category, setCategory] = useState('')
+  const [currentPage, setCurrentPage] = useState(1);
+  const [price, setPrice] = useState([0, 25000]);
+  const [category, setCategory] = useState("");
 
-  const [ratings, setRatings] = useState(0)
+  const [ratings, setRatings] = useState(0);
 
   const {
     products,
@@ -39,27 +38,27 @@ const Products = ({match}) => {
     productsCount,
     resultPerPage,
     filteredProductsCount,
-  } = useSelector((state) => state.products)
+  } = useSelector((state) => state.products);
 
-  const keyword = match.params.keyword
+  const keyword = match.params.keyword;
 
   const setCurrentPageNo = (e) => {
-    setCurrentPage(e)
-  }
+    setCurrentPage(e);
+  };
 
   const priceHandler = (event, newPrice) => {
-    setPrice(newPrice)
-  }
-  let count = filteredProductsCount
+    setPrice(newPrice);
+  };
+  let count = filteredProductsCount;
 
   useEffect(() => {
     if (error) {
-      alert.error(error)
-      dispatch(clearErrors())
+      alert.error(error);
+      dispatch(clearErrors());
     }
 
-    dispatch(getProduct(keyword, currentPage, price, category, ratings))
-  }, [dispatch, keyword, currentPage, price, category, ratings, alert, error])
+    dispatch(getProduct(keyword, currentPage, price, category, ratings));
+  }, [dispatch, keyword, currentPage, price, category, ratings, alert, error]);
 
   return (
     <Fragment>
@@ -106,7 +105,7 @@ const Products = ({match}) => {
               <Slider
                 value={ratings}
                 onChange={(e, newRating) => {
-                  setRatings(newRating)
+                  setRatings(newRating);
                 }}
                 aria-labelledby="continuous-slider"
                 valueLabelDisplay="auto"
@@ -136,7 +135,7 @@ const Products = ({match}) => {
         </Fragment>
       )}
     </Fragment>
-  )
-}
+  );
+};
 
-export default Products
+export default Products;

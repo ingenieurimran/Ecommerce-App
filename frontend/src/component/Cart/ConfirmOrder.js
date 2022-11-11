@@ -15,9 +15,9 @@ const ConfirmOrder = ({history}) => {
     0
   )
 
-  const shippingCharges = subtotal > 39 ? 0 : 4
+  const shippingCharges = subtotal > 1000 ? 0 : 200
 
-  const tax = subtotal * 0.19
+  const tax = subtotal * 0.18
 
   const totalPrice = subtotal + tax + shippingCharges
 
@@ -78,6 +78,7 @@ const ConfirmOrder = ({history}) => {
             </div>
           </div>
         </div>
+        {/*  */}
         <div>
           <div className="orderSummary">
             <Typography>Order Summery</Typography>

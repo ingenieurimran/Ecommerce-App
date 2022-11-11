@@ -1,18 +1,18 @@
-import React, {useState, Fragment} from 'react'
-import MetaData from '../layout/MetaData'
-import './Search.css'
+import React, { useState, Fragment } from "react";
+import MetaData from "../layout/MetaData";
+import "./Search.css";
 
-const Search = ({history}) => {
-  const [keyword, setKeyword] = useState('')
+const Search = ({ history }) => {
+  const [keyword, setKeyword] = useState("");
 
   const searchSubmitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (keyword.trim()) {
-      history.push(`/products/${keyword}`)
+      history.push(`/products/${keyword}`);
     } else {
-      history.push('/products')
+      history.push("/products");
     }
-  }
+  };
 
   return (
     <Fragment>
@@ -26,7 +26,7 @@ const Search = ({history}) => {
         <input type="submit" value="Search" />
       </form>
     </Fragment>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

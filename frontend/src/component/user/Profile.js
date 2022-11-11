@@ -1,18 +1,18 @@
-import React, {Fragment, useEffect} from 'react'
-import {useSelector} from 'react-redux'
-import MetaData from '../layout/MetaData'
-import Loader from '../layout/Loader/Loader'
-import {Link} from 'react-router-dom'
-import './Profile.css'
+import React, { Fragment, useEffect } from "react";
+import { useSelector } from "react-redux";
+import MetaData from "../layout/MetaData";
+import Loader from "../layout/Loader/Loader";
+import { Link } from "react-router-dom";
+import "./Profile.css";
 
-const Profile = ({history}) => {
-  const {user, loading, isAuthenticated} = useSelector((state) => state.user)
+const Profile = ({ history }) => {
+  const { user, loading, isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (isAuthenticated === false) {
-      history.push('/login')
+      history.push("/login");
     }
-  }, [history, isAuthenticated])
+  }, [history, isAuthenticated]);
   return (
     <Fragment>
       {loading ? (
@@ -49,7 +49,7 @@ const Profile = ({history}) => {
         </Fragment>
       )}
     </Fragment>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
