@@ -1,39 +1,39 @@
-import React, {Fragment} from 'react'
-import './Cart.css'
-import CartItemCard from './CartItemCard'
-import {useSelector, useDispatch} from 'react-redux'
-import {addItemsToCart, removeItemsFromCart} from '../../actions/cartAction'
-import {Typography} from '@material-ui/core'
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart'
-import {Link} from 'react-router-dom'
+import React, { Fragment } from "react";
+import "./Cart.css";
+import CartItemCard from "./CartItemCard";
+import { useSelector, useDispatch } from "react-redux";
+import { addItemsToCart, removeItemsFromCart } from "../../actions/cartAction";
+import { Typography } from "@material-ui/core";
+import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
+import { Link } from "react-router-dom";
 
-const Cart = ({history}) => {
-  const dispatch = useDispatch()
-  const {cartItems} = useSelector((state) => state.cart)
+const Cart = ({ history }) => {
+  const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
 
   const increaseQuantity = (id, quantity, stock) => {
-    const newQty = quantity + 1
+    const newQty = quantity + 1;
     if (stock <= quantity) {
-      return
+      return;
     }
-    dispatch(addItemsToCart(id, newQty))
-  }
+    dispatch(addItemsToCart(id, newQty));
+  };
 
   const decreaseQuantity = (id, quantity) => {
-    const newQty = quantity - 1
+    const newQty = quantity - 1;
     if (1 >= quantity) {
-      return
+      return;
     }
-    dispatch(addItemsToCart(id, newQty))
-  }
+    dispatch(addItemsToCart(id, newQty));
+  };
 
   const deleteCartItems = (id) => {
-    dispatch(removeItemsFromCart(id))
-  }
+    dispatch(removeItemsFromCart(id));
+  };
 
   const checkoutHandler = () => {
-    history.push('/login?redirect=shipping')
-  }
+    history.push("/login?redirect=shipping");
+  };
 
   return (
     <Fragment>
@@ -78,7 +78,7 @@ const Cart = ({history}) => {
                       +
                     </button>
                   </div>
-                  <p className="cartSubtotal">{`€${
+                  <p className="cartSubtotal">{`₹${
                     item.price * item.quantity
                   }`}</p>
                 </div>
@@ -88,7 +88,7 @@ const Cart = ({history}) => {
               <div></div>
               <div className="cartGrossProfitBox">
                 <p>Gross Total</p>
-                <p>{`€${cartItems.reduce(
+                <p>{`₹${cartItems.reduce(
                   (acc, item) => acc + item.quantity * item.price,
                   0
                 )}`}</p>
@@ -102,7 +102,7 @@ const Cart = ({history}) => {
         </Fragment>
       )}
     </Fragment>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;

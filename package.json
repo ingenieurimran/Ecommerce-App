@@ -1,14 +1,15 @@
 {
-  "name": "mern-project",
+  "name": "ecommerce",
   "version": "1.0.0",
   "description": "",
-  "main": "backend/server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend/server.js",
-    "heroku-postbuild": "cd frontend && npm install && npm run build"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
   },
-  "author": "Imran Ali",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -21,12 +22,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.5",
     "nodemailer": "^6.6.3",
-    "nodemon": "^2.0.20",
     "stripe": "^8.174.0",
     "validator": "^13.6.0"
-  },
-  "engines": {
-    "node": "16.16.0",
-    "npm": "8.5.5"
   }
 }

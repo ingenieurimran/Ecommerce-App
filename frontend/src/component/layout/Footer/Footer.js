@@ -1,11 +1,9 @@
-import React from 'react'
-
-import playStore from '../../../images/playstore.png'
-import appStore from '../../../images/Appstore.png'
-import './Footer.css'
+import React from "react";
+import playStore from "../../../images/playstore.png";
+import appStore from "../../../images/Appstore.png";
+import "./Footer.css";
 
 const Footer = () => {
-  const year = new Date().getFullYear()
   return (
     <footer id="footer">
       <div className="leftFooter">
@@ -19,23 +17,17 @@ const Footer = () => {
         <h1>ECOMMERCE.</h1>
         <p>High Quality is our first priority</p>
 
-        <p>Copyrights {year} &copy; ImranAli</p>
+        <p>Copyrights 2021 &copy; MeAbhiSingh</p>
       </div>
 
       <div className="rightFooter">
         <h4>Follow Us</h4>
-        <a href="http://instagram.com/" target="blank">
-          Instagram
-        </a>
-        <a href="http://youtube.com/" target="blank">
-          Youtube
-        </a>
-        <a href="https://www.facebook.com/" target="blank">
-          Facebook
-        </a>
+        <a href="http://instagram.com/meabhisingh">Instagram</a>
+        <a href="http://youtube.com/6packprogramemr">Youtube</a>
+        <a href="http://instagram.com/meabhisingh">Facebook</a>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
